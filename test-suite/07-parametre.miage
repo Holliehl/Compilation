@@ -1,0 +1,15 @@
+
+% une fonction (appel)
+
+
+ent i =0;
+ent j = 0;
+
+ent f(ent a, ent b){
+	ent x, y, z;
+	return 0;
+ }
+
+main(){
+	i = f(i,j); %tester ceci
+}

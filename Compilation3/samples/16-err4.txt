@@ -1,0 +1,15 @@
+
+% Test de controle semantique 
+
+ 
+ ent i;
+ 
+ f(){
+	ent x;
+	x=0;
+ }
+ 
+ main(){
+	i = i + f(); % erreur : compatibilite de type 
+ }
+ 

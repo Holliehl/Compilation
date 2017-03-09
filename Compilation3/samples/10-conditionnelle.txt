@@ -1,0 +1,14 @@
+
+% conditionnelle
+
+
+ent i = 3; ent j;
+main(){
+	si (i < 2){
+		j = 0;
+	}
+	sinon{
+		j = 1;
+	}
+ }
+

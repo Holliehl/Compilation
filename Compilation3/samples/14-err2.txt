@@ -1,0 +1,11 @@
+
+% Test de controle semantique
+
+ 
+ ent i;
+ ent i; % erreur : double definition
+ 
+main(){
+	i = 0;
+ }
+ 

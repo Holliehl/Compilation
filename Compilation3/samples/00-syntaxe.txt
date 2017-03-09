@@ -1,0 +1,21 @@
+
+% Test plus complet pour savoir si l'analyseur
+% syntaxique fonctionne
+
+ 
+ ent i = 0 ;
+ ent j;
+ 
+ ent f(ent a, ent b){
+	ent x;
+	
+	x=(a*2)+b-5/3;
+	
+	return x+2;
+ }
+ 
+main(){
+	 j = read();
+	 print(f(i+1,j));
+ }
+ 

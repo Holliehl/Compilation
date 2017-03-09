@@ -1,0 +1,15 @@
+
+% Test de controle semantique
+
+ 
+ ent i;
+ 
+ f(ent a, ent b){
+	ent x;
+	x=0;
+ }
+ 
+main(){
+	f(i); % erreur : nombre de parametres
+ }
+ 

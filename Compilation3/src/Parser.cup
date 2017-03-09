@@ -1,0 +1,104 @@
+/*
+ * analyseur syntaxique  du langage timestamp:
+ * (voir supports de cours)
+ *
+ * auteurs : GHARNATI & KELLER 
+ * (c) 2017
+ */ 
+package fr.ul.miage.timestamp.generated;
+import java.util.ArrayList;
+
+action code {:
+	
+	ArrayList a = new ArrayList();
+
+	//ajoute une IP à une array seulement si la valeur n'existe pas déjà
+	void ajouterIP(ArrayList array, String s){
+		if(!array.contains(s))
+			array.add(s);
+	}
+
+	
+
+
+	
+:}
+
+
+
+/* la grammaire */
+
+terminal ADD, MUL, SUB, DIV;
+terminal SUP, SUPEG, INF, INFEG, EGL, DIFF;
+terminal PO, PF, AO, AF, VIR, PVIR;
+terminal NUM, ENT, AFFECT, STR;
+terminal RD, PRT, SI, SINON, TQ, MAIN, RETURN;
+terminal ENDL;
+
+non terminal  prog,fonction, expr, bsi,btq, main, contenu, ligne, args, return, condition, var, decla;
+
+
+start with prog;
+
+prog ::= expr prog 
+		| fonction prog
+		| main
+		;
+ 
+main ::= MAIN PO PF AO contenu AF
+	|MAIN PO PF AO AF;
+		
+contenu ::= ligne contenu
+		| bsi contenu
+		| btq contenu
+		| ENDL;
+		
+ligne ::= ligne PVIR
+		|STR AFFECT expr
+		|PRT expr
+		|decla
+		;
+fonction ::= ENT STR PO args PF AO contenu return AF 
+		| STR PO args PF AO contenu AF
+		;
+		
+expr ::= PO expr PF 
+		| expr ADD expr 
+		| expr MUL expr 
+		| expr SUB expr 
+		| expr DIV expr
+		| RD
+		| STR
+		| NUM
+		;
+		
+bsi ::= SI PO condition PF AO contenu AF SINON AO contenu AF
+		|SI condition AO contenu AF
+		;
+
+btq ::= TQ PO condition PF AO contenu AF;
+
+args ::= ENT STR VIR args
+		|ENT STR
+		;
+
+return ::= RETURN expr;
+
+condition ::= expr SUP expr
+			| expr SUPEG expr
+			| expr INF expr
+			| expr INFEG expr
+			| expr EGL expr
+			| expr DIFF expr
+			;
+			
+var ::= STR AFFECT NUM VIR var 
+		|STR AFFECT expr VIR var
+		|STR AFFECT NUM
+		|STR AFFECT expr
+		|STR VIR
+		|STR
+		;
+decla ::= ENT var PVIR;
+ 
+			

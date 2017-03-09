@@ -1,0 +1,13 @@
+
+% Test génération de code : variables globales
+
+ 
+ ent i = 0;
+ ent j, k;
+ 
+main(){
+	k = 1;
+	j = k;
+	k = i;
+ }
+ 

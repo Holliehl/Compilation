@@ -1,0 +1,10 @@
+
+% Une expression simple
+
+
+ent i;
+ent j = 1;
+
+main(){
+	i = 6+j/3; %tester ceci
+}

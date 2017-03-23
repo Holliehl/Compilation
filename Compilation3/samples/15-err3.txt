@@ -1,8 +1,0 @@
-
- % Test de controle semantique
- 
- 
-main(){
-	i = 0; % erreur : variable non definie
- }
- 

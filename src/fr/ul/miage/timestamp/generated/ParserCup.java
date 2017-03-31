@@ -223,7 +223,6 @@ class CUP$ParserCup$actions {
 		int ssright = ((java_cup.runtime.Symbol)CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-2)).right;
 		Object ss = (Object)((java_cup.runtime.Symbol) CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-2)).value;
 		//@@CUPDBG3
-System.out.println(i); 
               CUP$ParserCup$result = parser.getSymbolFactory().newSymbol("timestamp",3, ((java_cup.runtime.Symbol)CUP$ParserCup$stack.elementAt(CUP$ParserCup$top-13)), ((java_cup.runtime.Symbol)CUP$ParserCup$stack.peek()), RESULT);
             }
           return CUP$ParserCup$result;

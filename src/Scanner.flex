@@ -15,11 +15,13 @@ import java_cup.runtime.Symbol;
 %line
 %public
 %cup
+%debug
 
 /* macros */
 NUM		= [0-9]+
 STR		= [a-zA-Z]+
 ENDL    =  	\n
+COMMENTAIRE = "%".*"\n"
 
 %%
 
@@ -43,13 +45,14 @@ ENDL    =  	\n
 ";"         { return new Symbol(sym.PVIR);}
 "return"         { return new Symbol(sym.RETURN);}
 "print"         { return new Symbol(sym.PRT);}
-{NUM}       { return new Symbol(sym.NUM);}
-{STR}       { return new Symbol(sym.STR);}
 "main"         { return new Symbol(sym.MAIN);}
 "si"         { return new Symbol(sym.SI);}
 "sinon"         { return new Symbol(sym.SINON);}
 "tq"         { return new Symbol(sym.TQ);}
 "read()"         { return new Symbol(sym.RD);}
+{NUM}       { return new Symbol(sym.NUM);}
+{STR}       { return new Symbol(sym.STR);}
 {ENDL}         { return new Symbol(sym.ENDL);}
+{COMMENTAIRE}  {;}
 .			{ return null;}
 

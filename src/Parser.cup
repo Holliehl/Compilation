@@ -22,9 +22,9 @@ terminal SUP, SUPEG, INF, INFEG, EGL, DIFF;
 terminal PO, PF, AO, AF, VIR, PVIR;
 terminal NUM, ENT, AFFECT, STR;
 terminal RD, PRT, SI, SINON, TQ, MAIN, RETURN;
-terminal ENDL;
+terminal POURC,ENDL;
 
-non terminal  prog,fonction, expr, bsi,btq, main, contenu, ligne, args, return, condition, var, decla;
+non terminal  prog,fonction, expr, bsi,btq, main, contenu, ligne, args, return, condition, var, decla, commentaire;
 
 
 start with prog;
@@ -88,6 +88,8 @@ var ::= STR AFFECT NUM VIR var
 		|STR VIR
 		|STR
 		;
+commentaire ::= POURC STR ENDL;
+
 decla ::= ENT var PVIR;
  
 			

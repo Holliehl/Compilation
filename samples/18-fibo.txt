@@ -1,0 +1,8 @@
+ent fibo(ent n) {
+	si (n <= 1) {
+		return n;
+	}
+	sinon {
+		return (fibo(n-1) + fibo(n-2));
+	}
+}

@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
+<<<<<<< HEAD
 	<name>Compilation</name>
+=======
+	<name>Compilation_projet</name>
+>>>>>>> origin/master
 	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
 		<buildCommand>
+<<<<<<< HEAD
 			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
 			<triggers>full,incremental,</triggers>
 			<arguments>
@@ -20,6 +25,8 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
+=======
+>>>>>>> origin/master
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
 			</arguments>

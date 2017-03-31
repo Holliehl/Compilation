@@ -54,5 +54,5 @@ COMMENTAIRE = "%".*"\n"
 {STR}       { return new Symbol(sym.STR);}
 {ENDL}         { return new Symbol(sym.ENDL);}
 {COMMENTAIRE}  {;}
-.			{ return null;}
+.			{;}
 

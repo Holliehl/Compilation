@@ -17,45 +17,63 @@ action code {:
 
 /* la grammaire */
 
-terminal ADD, MUL, SUB, DIV;
-terminal SUP, SUPEG, INF, INFEG, EGL, DIFF;
-terminal PO, PF, AO, AF, VIR, PVIR;
-terminal NUM, ENT, AFFECT, STR;
-terminal RD, PRT, SI, SINON, TQ, MAIN, RETURN;
-terminal POURC,ENDL;
+terminal ADD, MUL, SUB, DIV; 											/* + * - / */
+terminal SUP, SUPEG, INF, INFEG, EGL, DIFF;								/* > >= < <= = != */
+terminal PO, PF, AO, AF, VIRGULE, PVIR;										/* ( ) { } , ; */
+terminal NUM, ENT, AFFECT, STR, IDF;									/* nombres "ent" = "string" identificateur */
+terminal RD, PRT, SI, SINON, TQ, MAIN, RETURN;							/* read print si sinon tantque main return */
 
-non terminal  prog,fonction, expr, bsi,btq, main, contenu, ligne, args, return, condition, var, decla, commentaire;
+non terminal  programme, fonction, definition, instruction, expression, partieDefinition, partieFonction, initialisation, parametreFonction, parametre,
+partieDefinitions, partieInstructions, bsi,btq, main, contenu, ligne, parametresFonction, return, condition, var, commentaire;
 
+start with programme;
 
-start with prog;
+programme ::= partieDefinition partieFonction main;
 
-prog ::= expr prog 
-		| fonction prog
-		| main
+partieDefinition ::= definition partieDefinition
+					| /* vide */
+					;
+		
+definition ::= ENT IDF initialisation PVIR;
+
+initialisation ::= EGL NUM
+					| /* vide */
+					;
+
+partieFonction ::= fonction partieFonction
+					| /* vide */
+					;
+
+fonction ::= ENT IDF PO parametresFonction PF AO contenu return AF 
+			;
+			
+parametresFonction ::= parametre VIRGULE parametresFonction
+					| parametre
+					;
+					
+parametre ::= ENT IDF
+			;
+
+contenu ::= partieDefinitions partieInstructions
 		;
+		
+partieDefinitions ::= definition partieDefinitions
+					| /* vide */
+					;
+					
+partieInstructions ::= instruction partieInstructions
+					| /* vide*/
+					;
  
 main ::= MAIN PO PF AO contenu AF
 	|MAIN PO PF AO AF;
 		
-contenu ::= ligne contenu
-		| bsi contenu
-		| btq contenu
-		| ENDL;
 		
-ligne ::= ligne PVIR
-		|STR AFFECT expr
-		|PRT PO expr PF
-		|decla
-		;
-fonction ::= ENT STR PO args PF AO contenu return AF 
-		| STR PO args PF AO contenu AF
-		;
-		
-expr ::= PO expr PF 
-		| expr ADD expr 
-		| expr MUL expr 
-		| expr SUB expr 
-		| expr DIV expr
+expression ::= PO expression PF 
+		| expression ADD expression 
+		| expression MUL expression 
+		| expression SUB expression 
+		| expression DIV expression
 		| RD
 		| STR
 		| NUM
@@ -67,29 +85,24 @@ bsi ::= SI PO condition PF AO contenu AF SINON AO contenu AF
 
 btq ::= TQ PO condition PF AO contenu AF;
 
-args ::= ENT STR VIR args
-		|ENT STR
-		;
+return ::= RETURN expression;
 
-return ::= RETURN expr;
-
-condition ::= expr SUP expr
-			| expr SUPEG expr
-			| expr INF expr
-			| expr INFEG expr
-			| expr EGL expr
-			| expr DIFF expr
+condition ::= expression SUP expression
+			| expression SUPEG expression
+			| expression INF expression
+			| expression INFEG expression
+			| expression EGL expression
+			| expression DIFF expression
 			;
 			
-var ::= STR AFFECT NUM VIR var 
-		|STR AFFECT expr VIR var
+var ::= STR AFFECT NUM VIRGULE var 
+		|STR AFFECT expression VIRGULE var
 		|STR AFFECT NUM
-		|STR AFFECT expr
-		|STR VIR
+		|STR AFFECT expression
+		|STR VIRGULE
 		|STR
 		;
 commentaire ::= POURC STR ENDL;
 
-decla ::= ENT var PVIR;
  
 			

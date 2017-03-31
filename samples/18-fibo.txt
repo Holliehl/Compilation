@@ -1,8 +1,14 @@
 ent fibo(ent n) {
-	si (n <= 1) {
-		return n;
+	ent i = 0;
+	ent j = 1;
+	ent k = 0;
+	ent temp;
+	
+	tq (k < n) {
+		temp = i + j;
+		i = j;
+		j = temp;
+		k = k + 1;
 	}
-	sinon {
-		return (fibo(n-1) + fibo(n-2));
-	}
+	return temp;
 }

@@ -24,7 +24,7 @@ terminal NUM, ENT, AFFECT, STR, IDF;									/* nombres "ent" = "string" identif
 terminal RD, PRT, SI, SINON, TQ, MAIN, RETURN;							/* read print si sinon tantque main return */
 
 non terminal  programme, fonction, definition, instruction, expression, partieDefinition, partieFonction, initialisation, parametreFonction, parametre,
-partieDefinitions, partieInstructions, bsi,btq, main, contenu, ligne, parametresFonction, return, condition, var, commentaire;
+partieDefinitions, partieInstructions, boucleSi,boucleTq, main, contenu, ligne, parametresFonction, return, condition, var, commentaire;
 
 start with programme;
 
@@ -49,6 +49,7 @@ fonction ::= ENT IDF PO parametresFonction PF AO contenu return AF
 			
 parametresFonction ::= parametre VIRGULE parametresFonction
 					| parametre
+					| /* vide */
 					;
 					
 parametre ::= ENT IDF
@@ -64,10 +65,17 @@ partieDefinitions ::= definition partieDefinitions
 partieInstructions ::= instruction partieInstructions
 					| /* vide*/
 					;
+
+instruction ::= definition
+	|alternative 
+	|boucleSi
+	|boucleTq
+	|ecrire /*à définir*/
+	|appel /*à définir*/
+ 
+return ::= RETURN instruction;
  
 main ::= MAIN PO PF AO contenu AF
-	|MAIN PO PF AO AF;
-		
 		
 expression ::= PO expression PF 
 		| expression ADD expression 
@@ -79,13 +87,11 @@ expression ::= PO expression PF
 		| NUM
 		;
 		
-bsi ::= SI PO condition PF AO contenu AF SINON AO contenu AF
+boucleSi ::= SI PO condition PF AO contenu AF SINON AO contenu AF
 		|SI condition AO contenu AF
 		;
 
-btq ::= TQ PO condition PF AO contenu AF;
-
-return ::= RETURN expression;
+boucleTq ::= TQ PO condition PF AO contenu AF;
 
 condition ::= expression SUP expression
 			| expression SUPEG expression
@@ -102,6 +108,8 @@ var ::= STR AFFECT NUM VIRGULE var
 		|STR VIRGULE
 		|STR
 		;
+		
+		/* à suprimer normalement */
 commentaire ::= POURC STR ENDL;
 
  

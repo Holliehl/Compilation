@@ -46,3 +46,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /build/
+
+.project
+.class
+proj.properties
+bin/
+.classpath

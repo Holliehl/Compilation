@@ -1,32 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-<<<<<<< HEAD
-	<name>Compilation</name>
-=======
-	<name>Compilation_projet</name>
->>>>>>> origin/master
+	<name>Compilation-master</name>
 	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
 		<buildCommand>
-<<<<<<< HEAD
 			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
-			<triggers>full,incremental,</triggers>
+			<triggers>clean,full,incremental,</triggers>
 			<arguments>
 				<dictionary>
 					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.externalToolBuilders/New_Builder (1).launch</value>
-				</dictionary>
-				<dictionary>
-					<key>incclean</key>
-					<value>true</value>
+					<value>&lt;project&gt;/.externalToolBuilders/New_Builder.launch</value>
 				</dictionary>
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-=======
->>>>>>> origin/master
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
 			</arguments>

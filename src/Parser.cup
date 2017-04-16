@@ -21,10 +21,12 @@ terminal ADD, MUL, SUB, DIV; 											/* + * - / */
 terminal SUP, SUPEG, INF, INFEG, EGL, DIFF;								/* > >= < <= = != */
 terminal PO, PF, AO, AF, VIRGULE, PVIR;										/* ( ) { } , ; */
 terminal NUM, ENT, AFFECT, STR, IDF;									/* nombres "ent" = "string" identificateur */
-terminal RD, PRT, SI, SINON, TQ, MAIN, RETURN;							/* read print si sinon tantque main return */
+terminal PRINT, SI, SINON, TQ, MAIN, RETURN;							/* print si sinon tantque main return */
 
 non terminal  programme, fonction, definition, instruction, expression, partieDefinition, partieFonction, initialisation, parametreFonction, parametre,
-partieDefinitions, partieInstructions, boucleSi,boucleTq, main, contenu, ligne, parametresFonction, return, condition, var, commentaire;
+partieDefinitions, partieInstructions, boucleSi,boucleTq, main, contenu, parametresFonction, return, condition, var,
+alternative, ecrire, lire, appel, 
+operationPrioritaire,operationNonPrioritaire, operationfin, parametresAppel,parametreAppel;
 
 start with programme;
 
@@ -37,8 +39,9 @@ partieDefinition ::= definition partieDefinition
 definition ::= ENT IDF initialisation PVIR;
 
 initialisation ::= EGL NUM
-					| /* vide */
-					;
+				|VIRGULE IDF /* ent a,b; */
+				| /* vide */
+				;
 
 partieFonction ::= fonction partieFonction
 					| /* vide */
@@ -70,26 +73,56 @@ instruction ::= definition
 	|alternative 
 	|boucleSi
 	|boucleTq
-	|ecrire /*à définir*/
+	|lire
+	|ecrire /*tentative de définition en dessous*/
 	|appel /*à définir*/
+	;
  
-return ::= RETURN instruction;
- 
-main ::= MAIN PO PF AO contenu AF
+return ::= RETURN expression
+		|RETURN appel
+		;
+
+ecrire ::= PRINT PO appel PF
+		|PRINT PO IDF PF
+		|PRINT PO NUM PF
+		|PRINT PO expression PF /*qu'est ce qu'on peut print de +?*/
+		;
+
+appel ::= IDF PO parametresAppel PF;
+
+parametresAppel ::= parametreAppel VIRGULE parametresAppel
+				|parametresAppel
+				;
+
+parametreAppel ::=expression; /* je sais pas si c'est à garder ou pas aussi*/
+
+main ::= MAIN PO PF AO contenu AF;
 		
-expression ::= PO expression PF 
-		| expression ADD expression 
-		| expression MUL expression 
-		| expression SUB expression 
-		| expression DIV expression
-		| RD
-		| STR
-		| NUM
+expression ::=operationNonPrioritaire; /*à supprimer? mais pas sûre du tout pcq expression
+c'est bien comme nom pour le reste de la grammaire, c'est explicite */
+
+/*grammaire pour les expressions arithmétiques se basant sur la diapo du cours (celle sur cup)
+les noms (operationNonPrioritaire, operationPrioritaire...) sont très bof, dans sa diapo
+le prof lui a mis des a,x,f mais je trouve ça encore + ambigu donc jsp pas trop*/
+operationNonPrioritaire ::= operationNonPrioritaire ADD operationPrioritaire
+							|operationNonPrioritaire SUB operationPrioritaire
+							|operationPrioritaire
+							;
+
+operationPrioritaire ::= operationPrioritaire DIV operationfin
+						|operationPrioritaire MUL operationfin
+						|operationfin
+						;
+
+operationfin ::= NUM
+		|IDF
+		|PO operationNonPrioritaire PF 
 		;
 		
+
 boucleSi ::= SI PO condition PF AO contenu AF SINON AO contenu AF
-		|SI condition AO contenu AF
-		;
+			|SI PO condition PF AO contenu AF
+			;
 
 boucleTq ::= TQ PO condition PF AO contenu AF;
 
@@ -109,8 +142,6 @@ var ::= STR AFFECT NUM VIRGULE var
 		|STR
 		;
 		
-		/* à suprimer normalement */
-commentaire ::= POURC STR ENDL;
 
  
 			

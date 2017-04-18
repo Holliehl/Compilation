@@ -6,10 +6,41 @@
  * (c) 2017
  */ 
 package fr.ul.miage.timestamp.generated;
+import java.util.ArrayList;
 
 action code {:
+	// on ne met pas le "type" de nos fonctions/variables dans la TDS car toutes nos fonctions
+	// retournent des ent, sauf les "main" qui seront eux classés sous la catégorie "main",
+	// pas besoin donc de les différencier une fois de plus
+	ArrayList<String[]> TDS=new ArrayList<String[]>(); /*pour la TDS, on a une liste de tableaux qui contiendront:*/
+	public void updateTDS(String id, String resultinit[],String cat){ /*le nom de la var/fonction,sa catégorie(globale ou pas),sa valeur*/
+		String[] decla,decla2;
+		decla=new String[3];
+		decla[0]=cat;
+		decla[1]=id;
+		
+		if (resultinit == null){ //s'il n'y a eu aucun résultat dans resultinit -> décla de type int a;
+			decla[2]="0"; //par default, on initialise les variables sans valeur à 0
+		}
+		if (resultinit[0]!=null){ //decla de type int a=5;
+			int val= (int)resultinit[0];
+			decla[2]=resultinit[0];
+		}
+		if (resultinit[1]!=null){ //decla de type int a,b;
+			decla[2]="0";
+			decla2=new String[3];
+			decla2[0]=cat;
+			decla2[1]=resultinit[1];
+			decla2[2]="0";
+		}
+		TDS.add(decla);
+		if(decla2!=null){
+			TDS.add(decla2);
+		}
+		//pas fini, reste les fonctions à gérer
+	}											
 	
-	//mettre ici le code
+
 	
 :}
 
@@ -32,22 +63,23 @@ start with programme;
 
 programme ::= partieDefinition partieFonction main;
 
-partieDefinition ::= definition partieDefinition
+partieDefinition ::= definition{: updateTDS(id,resultinit,"global") :} partieDefinition
 					| /* vide */
 					;
 		
-definition ::= ENT IDF initialisation PVIR;
+definition ::= ENT IDF:id initialisation:resultinit PVIR{: RESULT=id,resultinit :};
 
-initialisation ::= EGL NUM
-				|VIRGULE IDF /* ent a,b; */
+initialisation ::= EGL NUM:val
+				|VIRGULE IDF:id /* ent a,b; */
 				| /* vide */
+				{:RESULT={val,id}; :}
 				;
 
 partieFonction ::= fonction partieFonction
 					| /* vide */
 					;
 
-fonction ::= ENT IDF PO parametresFonction PF AO contenu return AF 
+fonction ::= ENT IDF:id PO parametresFonction PF AO contenu return AF 
 			;
 			
 parametresFonction ::= parametre VIRGULE parametresFonction

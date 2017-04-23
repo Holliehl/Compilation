@@ -51,12 +51,12 @@ action code {:
 terminal ADD, MUL, SUB, DIV; 											/* + * - / */
 terminal SUP, SUPEG, INF, INFEG, EGL, DIFF;								/* > >= < <= = != */
 terminal PO, PF, AO, AF, VIRGULE, PVIR;										/* ( ) { } , ; */
-terminal NUM, ENT, AFFECT, STR, IDF;									/* nombres "ent" = "string" identificateur */
+terminal NUM, ENT, IDF;									/* nombres "ent" = "string" identificateur */
 terminal PRINT, SI, SINON, TQ, MAIN, RETURN;							/* print si sinon tantque main return */
 
 non terminal  programme, fonction, definition, instruction, expression, partieDefinition, partieFonction, initialisation, parametreFonction, parametre,
-partieDefinitions, partieInstructions, boucleSi,boucleTq, main, contenu, parametresFonction, return, condition, var,
-alternative, ecrire, lire, appel, 
+partieDefinitionFonction, partieInstructions, boucleSi,boucleTq, main, contenu, parametresFonction, return, condition, var,
+ecrire, lire, appel, 
 operationPrioritaire,operationNonPrioritaire, operationfin, parametresAppel,parametreAppel;
 
 start with programme;
@@ -90,10 +90,10 @@ parametresFonction ::= parametre VIRGULE parametresFonction
 parametre ::= ENT IDF
 			;
 
-contenu ::= partieDefinitions partieInstructions
+contenu ::= partieDefinitionFonction partieInstructions
 		;
 		
-partieDefinitions ::= definition partieDefinitions
+partieDefinitionFonction ::= definition partieDefinitionFonction
 					| /* vide */
 					;
 					
@@ -101,8 +101,7 @@ partieInstructions ::= instruction partieInstructions
 					| /* vide*/
 					;
 
-instruction ::= definition
-	|alternative 
+instruction ::= definition 
 	|boucleSi
 	|boucleTq
 	|lire
@@ -166,13 +165,7 @@ condition ::= expression SUP expression
 			| expression DIFF expression
 			;
 			
-var ::= STR AFFECT NUM VIRGULE var 
-		|STR AFFECT expression VIRGULE var
-		|STR AFFECT NUM
-		|STR AFFECT expression
-		|STR VIRGULE
-		|STR
-		;
+
 		
 
  

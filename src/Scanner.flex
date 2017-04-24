@@ -19,7 +19,7 @@ import java_cup.runtime.Symbol;
 
 /* macros */
 NUM		= [0-9]+
-STR		= [a-zA-Z]+
+IDF		= [a-zA-Z]+
 ENDL    =  	\n
 COMMENTAIRE = "%".*"\n"
 

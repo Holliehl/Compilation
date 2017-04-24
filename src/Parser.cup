@@ -13,7 +13,7 @@ action code {:
 	// retournent des ent, sauf les "main" qui seront eux classés sous la catégorie "main",
 	// pas besoin donc de les différencier une fois de plus
 	ArrayList<String[]> TDS=new ArrayList<String[]>(); /*pour la TDS, on a une liste de tableaux qui contiendront:*/
-	public void updateTDS(String id, String resultinit[],String cat){ /*le nom de la var/fonction,sa catégorie(globale ou pas),sa valeur*/
+	public void updateTDSVariable(String id, String resultinit[],String cat){ /*le nom de la var/fonction,sa catégorie(globale ou pas),sa valeur*/
 		String[] decla,decla2;
 		decla=new String[3];
 		decla[0]=cat;
@@ -37,7 +37,6 @@ action code {:
 		if(decla2!=null){
 			TDS.add(decla2);
 		}
-		//pas fini, reste les fonctions à gérer
 	}											
 	
 
@@ -57,7 +56,7 @@ terminal PRINT, SI, SINON, TQ, MAIN, RETURN;							/* print si sinon tantque mai
 non terminal  programme, fonction, definition, instruction, expression, partieDefinition, partieFonction, initialisation, parametreFonction, parametre,
 partieDefinitionFonction, partieInstructions, boucleSi,boucleTq, main, contenu, parametresFonction, return, condition, var,
 ecrire, lire, appel, 
-operationPrioritaire,operationNonPrioritaire, operationfin, parametresAppel,parametreAppel;
+operationPrioritaire,operationNonPrioritaire, operationfin;
 
 start with programme;
 
@@ -69,7 +68,7 @@ partieDefinition ::= definition{: updateTDS(id,resultinit,"global") :} partieDef
 		
 definition ::= ENT IDF:id initialisation:resultinit PVIR{: RESULT=id,resultinit :};
 
-initialisation ::= EGL NUM:val
+initialisation ::= EGL NUM:val /*ent a=1;*/
 				|VIRGULE IDF:id /* ent a,b; */
 				| /* vide */
 				{:RESULT={val,id}; :}
@@ -105,8 +104,8 @@ instruction ::= definition
 	|boucleSi
 	|boucleTq
 	|lire
-	|ecrire /*tentative de définition en dessous*/
-	|appel /*à définir*/
+	|ecrire 
+	|appel 
 	;
  
 return ::= RETURN expression
@@ -116,25 +115,16 @@ return ::= RETURN expression
 ecrire ::= PRINT PO appel PF
 		|PRINT PO IDF PF
 		|PRINT PO NUM PF
-		|PRINT PO expression PF /*qu'est ce qu'on peut print de +?*/
+		|PRINT PO expression PF 
 		;
 
-appel ::= IDF PO parametresAppel PF;
-
-parametresAppel ::= parametreAppel VIRGULE parametresAppel
-				|parametresAppel
-				;
-
-parametreAppel ::=expression; /* je sais pas si c'est à garder ou pas aussi*/
+appel ::= IDF PO parametresFonction PF;
 
 main ::= MAIN PO PF AO contenu AF;
 		
-expression ::=operationNonPrioritaire; /*à supprimer? mais pas sûre du tout pcq expression
-c'est bien comme nom pour le reste de la grammaire, c'est explicite */
+expression ::=operationNonPrioritaire; 
 
-/*grammaire pour les expressions arithmétiques se basant sur la diapo du cours (celle sur cup)
-les noms (operationNonPrioritaire, operationPrioritaire...) sont très bof, dans sa diapo
-le prof lui a mis des a,x,f mais je trouve ça encore + ambigu donc jsp pas trop*/
+/*grammaire pour les expressions arithmétiques*/
 operationNonPrioritaire ::= operationNonPrioritaire ADD operationPrioritaire
 							|operationNonPrioritaire SUB operationPrioritaire
 							|operationPrioritaire
